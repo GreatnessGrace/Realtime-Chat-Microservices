@@ -85,3 +85,10 @@ export const myProfile = TryCatch(async (req: AuthenticatedRequest, res) => {
 
   res.json(user);
 });
+
+export const getAllUsers = TryCatch(async (req: AuthenticatedRequest, res) => {
+  const users = await User.find();
+
+  res.json(users);
+});
+
