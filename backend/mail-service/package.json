@@ -1,0 +1,22 @@
+{
+  "name": "mail-service",
+  "version": "1.0.0",
+  "description": "Handles email delivery for OTP verification and notifications using RabbitMQ for inter-service communication.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/GreatnessGrace/Realtime-Chat-Microservices.git"
+  },
+  "keywords": [
+    "Mail-Service"
+  ],
+  "author": "Grace",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GreatnessGrace/Realtime-Chat-Microservices/issues"
+  },
+  "homepage": "https://github.com/GreatnessGrace/Realtime-Chat-Microservices#readme"
+}
