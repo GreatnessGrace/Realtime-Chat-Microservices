@@ -92,3 +92,8 @@ export const getAllUsers = TryCatch(async (req: AuthenticatedRequest, res) => {
   res.json(users);
 });
 
+export const getAUser = TryCatch(async (req, res) => {
+  const user = await User.findById(req.params.id);
+
+  res.json(user);
+});
