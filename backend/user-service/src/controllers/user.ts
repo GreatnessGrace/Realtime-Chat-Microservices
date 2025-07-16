@@ -3,6 +3,7 @@ import TryCatch from "../config/TryCatch";
 import { User } from "../model/User";
 import { publishToQueue } from "../config/rabbitmq";
 import { redisClient } from "../index";
+import { AuthenticatedRequest } from "../middleware/isAuth";
 
 export const loginUser = TryCatch(async (req, res) => {
     const { email } = req.body;
@@ -77,4 +78,10 @@ if (!storedOtp || storedOtp !== enteredOtp) {
     user,
     token,
   });
+});
+
+export const myProfile = TryCatch(async (req: AuthenticatedRequest, res) => {
+  const user = req.user;
+
+  res.json(user);
 });
