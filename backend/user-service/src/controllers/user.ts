@@ -97,3 +97,26 @@ export const getAUser = TryCatch(async (req, res) => {
 
   res.json(user);
 });
+
+export const updateUser = TryCatch(async (req: AuthenticatedRequest, res) => {
+  const user = await User.findById(req.user?._id);
+
+  if (!user) {
+    res.status(404).json({
+      message: "Please login",
+    });
+    return;
+  }
+
+  user.name = req.body.name;
+
+  await user.save();
+
+  const token = generateToken(user);
+
+  res.json({
+    message: "User Updated",
+    user,
+    token,
+  });
+});
