@@ -1,8 +1,27 @@
 "use client";
 import React, { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { data } = await axios.post("/api/v1/login", { email });
+      toast.success(data.message);
+      router.push(`/verify?email=${email}`);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 flex items-center justify-center p-6">
@@ -16,7 +35,7 @@ const LoginPage = () => {
               Sign in to start chatting in real time
             </p>
           </div>
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
                 htmlFor="email"
@@ -37,9 +56,9 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 transition disabled:opacity-50"
-              disabled={!email}
+              disabled={loading}
             >
-              Continue
+              {loading ? "Sending OTP..." : "Continue"}
             </button>
           </form>
         </div>
