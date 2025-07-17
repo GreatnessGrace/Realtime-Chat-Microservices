@@ -4,7 +4,10 @@
   "description": "Manages real-time messaging with Socket.IO and persists chat data in MongoDB, enabling seamless communication between users",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
   },
   "repository": {
     "type": "git",
