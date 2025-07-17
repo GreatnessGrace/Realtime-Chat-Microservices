@@ -1,16 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
-import { app, server } from "./config/socket.js";
-import cors from "cors";
 import connectDb from "./config/db.js";
+import chatRoutes from "./routes/chat.js";
+import cors from "cors";
+import { app, server } from "./config/socket.js";
 
 dotenv.config();
+
+connectDb();
 
 app.use(express.json());
 
 app.use(cors());
 
-connectDb();
+app.use("/api/v1", chatRoutes);
 
 const port = process.env.PORT;
 
