@@ -14,11 +14,33 @@ const LoginPage = () => {
               Sign in to start chatting in real time
             </p>
           </div>
-          {/* Form will come here */}
+          
+          <form className="space-y-5">
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="you@example.com"
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600 transition"
+            >
+              Continue
+            </button>
+          </form>
+
         </div>
       </div>
-     </div>
-
+    </div>
   );
 };
 
