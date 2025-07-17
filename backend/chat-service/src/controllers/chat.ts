@@ -222,3 +222,102 @@ export const sendMessage = TryCatch(async (req: AuthenticatedRequest, res) => {
     sender: senderId,
   });
 });
+
+export const getMessagesByChat = TryCatch(
+  async (req: AuthenticatedRequest, res) => {
+    const userId = req.user?._id;
+    const { chatId } = req.params;
+
+    if (!userId) {
+      res.status(401).json({
+        message: "Unauthorized",
+      });
+      return;
+    }
+
+    if (!chatId) {
+      res.status(400).json({
+        message: "ChatId Required",
+      });
+      return;
+    }
+
+    const chat = await Chat.findById(chatId);
+
+    if (!chat) {
+      res.status(404).json({
+        message: "Chat not found",
+      });
+      return;
+    }
+
+    const isUserInChat = chat.users.some(
+      (userId) => userId.toString() === userId.toString()
+    );
+
+    if (!isUserInChat) {
+      res.status(403).json({
+        message: "You are not a participant of this chat",
+      });
+      return;
+    }
+
+    const messagesToMarkSeen = await Messages.find({
+      chatId: chatId,
+      sender: { $ne: userId },
+      seen: false,
+    });
+
+    await Messages.updateMany(
+      {
+        chatId: chatId,
+        sender: { $ne: userId },
+        seen: false,
+      },
+      {
+        seen: true,
+        seenAt: new Date(),
+      }
+    );
+
+    const messages = await Messages.find({ chatId }).sort({ createdAt: 1 });
+
+    const otherUserId = chat.users.find((id) => id !== userId);
+
+    try {
+      const { data } = await axios.get(
+        `${process.env.USER_SERVICE}/api/v1/user/${otherUserId}`
+      );
+
+      if (!otherUserId) {
+        res.status(400).json({
+          message: "No other user",
+        });
+        return;
+      }
+
+      //socket logic
+      if (messagesToMarkSeen.length > 0) {
+        const otherUserSocketId = getRecieverSocketId(otherUserId.toString());
+        if (otherUserSocketId) {
+          io.to(otherUserSocketId).emit("messagesSeen", {
+            chatId: chatId,
+            seenBy: userId,
+            messageIds: messagesToMarkSeen.map((msg) => msg._id),
+          });
+        }
+      }
+
+      res.json({
+        messages,
+        user: data,
+      });
+    } catch (error) {
+      console.log(error);
+      res.json({
+        messages,
+        user: { _id: otherUserId, name: "Unknown User" },
+      });
+    }
+  }
+);
