@@ -1,0 +1,22 @@
+{
+  "name": "chat-service",
+  "version": "1.0.0",
+  "description": "Manages real-time messaging with Socket.IO and persists chat data in MongoDB, enabling seamless communication between users",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GreatnessGrace/Realtime-Chat-Microservices.git"
+  },
+  "keywords": [
+    "Chat-Microservice"
+  ],
+  "author": "Grace",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GreatnessGrace/Realtime-Chat-Microservices/issues"
+  },
+  "homepage": "https://github.com/GreatnessGrace/Realtime-Chat-Microservices#readme"
+}
