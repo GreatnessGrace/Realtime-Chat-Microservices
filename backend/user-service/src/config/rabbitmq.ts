@@ -4,13 +4,18 @@ let channel: amql.Channel;
 
 export const connectRabbitMQ = async () => {
     try {
-        const connection = await amql.connect({
-            protocol: "amqp",
-            hostname: process.env.Rabbitmq_Host,
-            port: 5672,
-            username: process.env.Rabbitmq_Username,
-            password: process.env.Rabbitmq_Password,
-        });
+        // const connection = await amql.connect({
+        //     protocol: "amqp",
+        //     hostname: process.env.Rabbitmq_Host,
+        //     port: 5672,
+        //     username: process.env.Rabbitmq_Username,
+        //     password: process.env.Rabbitmq_Password,
+        // });
+
+        if (!process.env.AMQP_URL) {
+  throw new Error("AMQP_URL environment variable is not defined");
+}
+const connection = await amql.connect(process.env.AMQP_URL);
 
         channel = await connection.createChannel();
 
