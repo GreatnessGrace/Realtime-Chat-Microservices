@@ -5,13 +5,19 @@ dotenv.config();
 
 export const startSendOtpConsumer = async () => {
   try {
-    const connection = await amqp.connect({
-      protocol: "amqp",
-      hostname: process.env.Rabbitmq_Host,
-      port: 5672,
-      username: process.env.Rabbitmq_Username,
-      password: process.env.Rabbitmq_Password,
-    });
+//    const connection = await amqp.connect({
+//   protocol: "amqps", // 🔁 Change to amqps for CloudAMQP
+//   hostname: process.env.Rabbitmq_Host,   // e.g. 'owl.rmq.cloudamqp.com'
+//   port: 5671,                             // ✅ CloudAMQP uses port 5671 for TLS
+//   username: process.env.Rabbitmq_Username,
+//   password: process.env.Rabbitmq_Password,
+//   vhost: process.env.Rabbitmq_Vhost       // Optional, usually a short string like 'abcde'
+// });
+if (!process.env.AMQP_URL) {
+  throw new Error("AMQP_URL environment variable is not defined");
+}
+const connection = await amqp.connect(process.env.AMQP_URL);
+
 
     const channel = await connection.createChannel();
 
