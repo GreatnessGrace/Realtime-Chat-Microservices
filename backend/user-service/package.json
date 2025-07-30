@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""  
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\""
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "@types/mongoose": "^5.11.97",
     "@types/redis": "^4.0.11",
     "concurrently": "^9.2.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "typescript": "^5.8.3"
   }
 }
