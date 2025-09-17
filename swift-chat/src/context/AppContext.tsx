@@ -13,7 +13,8 @@ import toast, { Toaster } from "react-hot-toast";
 
 export const user_service = "https://hopeful-reverence-production.up.railway.app";
 export const chat_service = "https://realtime-chat-microservices-production.up.railway.app";
-
+// export const user_service = "http://localhost:5000";
+// export const chat_service = "http://localhost:5002";
 export interface User {
   _id: string;
   name: string;
